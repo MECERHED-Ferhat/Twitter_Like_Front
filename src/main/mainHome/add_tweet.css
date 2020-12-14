@@ -1,0 +1,63 @@
+#tweet-container {
+	border-top: var(--border-lightgray);
+}
+
+textarea#tweet-area-input {
+	width: 100%;
+	min-height: 70px;
+
+	padding-top: 11px;
+
+	resize: none;
+	font-size: 1.3rem;
+	border: none;
+}
+
+#tweet-area-tools {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+label#tweet-tools-img {
+	padding: 6px 8px;
+
+	color: var(--color-blue);
+	border-radius: 9999px;
+	cursor: pointer;
+	transition: background-color 300ms;
+}
+label#tweet-tools-img:hover {
+	background-color: var(--color-hover-lightblue);
+}
+
+label#tweet-tools-img > i {
+	font-size: 1.5rem;
+}
+label#tweet-tools-img > input[name="image"] {
+	display: none;
+}
+
+#tweet-area-preview {
+	margin-bottom: 8px;
+}
+#tweet-area-preview > i {
+	position: absolute;
+	top: 10px;
+	left: 15px;
+	z-index: 10;
+	
+	font-size: 1.8rem;
+	cursor: pointer;
+	transition: color 300ms;
+}
+#tweet-area-preview > i:hover {
+	color: rgb(80, 80, 80);
+}
+
+button#tweet-tools-btn {
+	width: 74px;
+	height: 40px;
+
+	font-size: .9rem;
+}

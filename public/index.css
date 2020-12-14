@@ -1,0 +1,137 @@
+/* Core CSS */
+* {
+  outline: none;
+  box-sizing: border-box;
+  margin: 0;
+}
+:root {
+  height: 100%;
+
+  font-size: 16px;
+
+  --color-blue: rgb(29 161 242);
+  --color-lightblue: rgb(142 208 249);
+  --color-lightgray: rgb(235, 238, 240);
+  --color-hover-lightblue: rgb(232 245 254);
+  --color-hover-darkblue: rgb(26, 145, 218);
+  --color-border-lightgray: rgb(230, 236, 240);
+  --color-picborder-lightgray: rgb(204, 214, 221);
+
+  --border-lightgray: 1px solid var(--color-border-lightgray);
+}
+body {
+  height: 100%;
+
+  margin: auto;
+
+  font-family: "Roboto", sans-serif;
+}
+/* ----- */
+
+/* Pre-defined classes */
+.loading_spinner {
+  --spinner-length: calc(5px + 4vw);
+  width: var(--spinner-length);
+  height: var(--spinner-length);
+
+  margin: auto;
+  margin-top: 40px;
+
+  border: calc(4px + 0.5vw) solid #f3f3f3; /* Light grey */
+  border-top-color: var(--color-blue);
+  border-radius: 50%;
+  animation: spin 2s linear infinite;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.profile_pic {
+  width: 50px;
+  height: 50px;
+
+  overflow: hidden;
+  border-radius: 50%;
+  background-color: white;
+}
+.profile_pic > img {
+  width: 100%;
+  height: auto;
+}
+
+.default_pic {
+  position: relative;
+  width: 100%;
+  max-height: 300px;
+
+  overflow: hidden;
+  border-radius: 23px/20px;
+}
+.default_pic > img.back_pic {
+  visibility: hidden;
+  width: 100%;
+}
+.default_pic > img.front_pic {
+  display: block;
+  position: absolute;
+  top: -100%;
+  bottom: -100%;
+  left: -100%;
+  right: -100%;
+  width: 100%;
+
+  z-index: 1;
+  margin: auto;
+}
+
+.button_blue {
+  padding: 5;
+
+  font-weight: bold;
+  border: none;
+  border-radius: 9999px;
+  background-color: var(--color-lightblue);
+  color: white;
+  pointer-events: none;
+  transition: background-color 300ms;
+}
+.button_blue_active {
+  background-color: var(--color-blue);
+  cursor: pointer;
+  pointer-events: all;
+}
+.button_blue_active:hover {
+  background-color: var(--color-hover-darkblue) !important;
+}
+
+.tweet_box {
+  display: flex;
+  width: 100%;
+
+  padding: 10px 0;
+}
+.tweet_box > *:first-child {
+  height: 100%;
+
+  padding: 0 15px;
+}
+.tweet_box > *:last-child {
+  width: 100%;
+
+  padding-right: 15px;
+}
+
+.drop_menu {
+  z-index: 50;
+  overflow: hidden;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: rgba(101, 119, 134, 0.2) 0px 0px 15px,
+    rgba(101, 119, 134, 0.15) 0px 0px 3px 1px;
+}
+/* ----- */

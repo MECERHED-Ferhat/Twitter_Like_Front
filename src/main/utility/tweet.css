@@ -1,0 +1,135 @@
+.news {
+  padding-bottom: 0px;
+}
+
+.news-area {
+  min-width: 0;
+}
+
+.news-area-header {
+  display: flex;
+  flex-wrap: nowrap;
+  width: 100%;
+}
+.news-area-info {
+  flex-shrink: 1;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
+}
+.news-header-adr {
+  margin-left: 7px;
+
+  color: gray;
+}
+.news-header-time {
+  flex-shrink: 0;
+  margin-left: 7px;
+
+  color: gray;
+}
+.news-area-info:hover b {
+  text-decoration: underline;
+}
+
+.news-header-owner {
+  flex: 1;
+  margin-left: 5px;
+
+  text-align: right;
+}
+.news-header-owner i {
+  color: gray;
+  cursor: pointer;
+}
+.news-header-menu {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 150px;
+
+  text-align: left;
+}
+.news-header-menu-delete {
+  padding: 10px;
+
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 300ms;
+}
+.news-header-menu-delete:hover {
+  background-color: var(--color-hover-lightblue);
+}
+
+.news-area-description {
+  margin-top: 3px;
+
+  font-size: 15px;
+}
+
+.news-area-pic {
+  margin-top: 7px;
+}
+
+.news-area-tools {
+  display: flex;
+  justify-content: space-around;
+
+  padding: 3px 0;
+
+  font-size: 15px;
+}
+
+.news-area-tools > div {
+  display: flex;
+  align-items: center;
+
+  cursor: pointer;
+}
+
+.news-area-tools > div > i {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+
+  border-radius: 9999px;
+  pointer-events: none;
+  transition: background-color 300ms;
+}
+.news-area-tools > div > span {
+  margin: 0 7px;
+
+  pointer-events: none;
+}
+
+.news-tools-comment {
+  color: var(--color-blue);
+}
+.news-tools-comment > i {
+  background-color: var(--color-hover-lightblue);
+}
+.news-tools-retweet {
+  color: rgb(23 191 99);
+}
+.news-tools-retweet > i {
+  background-color: rgb(224 241 232);
+}
+.news-tools-like {
+  color: rgb(227 60 111);
+}
+.news-tools-like > i {
+  background-color: rgb(245 226 232);
+}
+
+.news-tools-inactive:not(.news-tools-active) {
+  color: gray;
+}
+.news-tools-inactive:not(.news-tools-active) > i {
+  background-color: transparent;
+}

@@ -1,0 +1,116 @@
+#user-wallpaper {
+    width: 100%;
+    height: 200px;
+
+    background-color: lightgray;
+    border-top: var(--border-lightgray);
+}
+
+#user {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+    height: fit-content;
+}
+
+#user-container {
+    flex: 1;
+    display: flex;
+    flex-flow: column nowrap;
+
+    padding: 0 15px 25px 15px;
+}
+
+#user-top-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#user-pic-base {
+    position: relative;
+    height: 70px;
+
+    margin-bottom: 5px;
+}
+
+#user-pic-container {
+    --user-pic-length : calc(30px + 17vw);
+    --user-pic-maxlen : 145px;
+    --user-pic-minlen : 80px;
+    
+    position: absolute;
+    bottom: 0;
+    max-width: var(--user-pic-maxlen);
+    max-height: var(--user-pic-maxlen);
+    min-width: var(--user-pic-minlen);
+    min-height: var(--user-pic-minlen);
+    width: var(--user-pic-length);
+    height: var(--user-pic-length);
+
+    padding: 6px;
+
+    background-color: white;
+    border-radius: 50%;
+}
+#user-pic {
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+    border-radius: 50%;
+}
+#user-pic > img {
+    width: 100%;
+}
+
+#user-adr {
+    line-height: 20px;
+    color: gray;
+}
+
+#user-time {
+    line-height: 35px;
+    color: gray;
+} 
+#user-time span {
+    margin-left: 5px;
+}
+
+#user-follow {
+    line-height: 25px;
+}
+#user-following,
+#user-follower {
+    color: black;
+    white-space: nowrap;
+    cursor: pointer;
+    text-decoration: none;
+}
+#user-following:hover,
+#user-follower:hover {
+    text-decoration-line: underline;
+}
+#user-following > span,
+#user-follower > span {
+    color: gray;
+}
+#user-following {
+    margin-right: 15px;
+}
+
+#user-edit {
+    padding: 10px 25px;
+    
+    color: var(--color-blue);
+    font-size: .9rem;
+    font-weight: bold;
+    background-color: white;
+    border: 1px solid var(--color-blue);
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: background-color 300ms;
+}
+#user-edit:hover {
+    background-color: var(--color-hover-lightblue);
+}

@@ -1,0 +1,28 @@
+#follow-nav {
+    display: flex;
+    width: 100%;
+
+    border-bottom: var(--border-lightgray);
+}
+
+.follow-nav-link {
+    flex: 1;
+
+    padding: 15px;
+
+    color: rgb(91 112 131);
+    text-align: center;
+    text-decoration: none;
+    font-size: .9rem;
+    font-weight: bold;
+    transition: background-color 300ms;
+}
+.follow-nav-link:hover {
+    color: var(--color-blue);
+    background-color: var(--color-hover-lightblue);
+}
+
+.follow-nav-active {
+    color: var(--color-blue);
+    border-bottom: 1px solid var(--color-blue);
+}

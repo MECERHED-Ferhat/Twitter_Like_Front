@@ -1,0 +1,35 @@
+.userline {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 300ms;
+}
+.userline:hover {
+    background-color: var(--color-hover-lightblue);
+}
+.userline-container {
+    display: flex;
+}
+.userline-info-container {
+    flex: 1;
+}
+.userline-info {
+    display: flex;
+    flex-flow: column nowrap;
+    width: fit-content;
+
+    font-size: .9rem;
+}
+.userline-name {
+    line-height: 20px;
+    font-weight: bold;
+}
+.userline-adr {
+    color: gray;
+}
+.userline-btn > button {
+    padding: 7px 15px !important;
+}
+.userline-info:hover .userline-name {
+    text-decoration: underline;
+}
