@@ -1,7 +1,8 @@
-import { useEffect, useReducer, useContext, useRef } from "react";
+import React, { useEffect, useReducer, useContext, useRef } from "react";
 import "./add_tweet.css";
 import Separator from "../utility/Separator";
 import UserContext from "../../context/userContext";
+import axiosInstance from "../../utility/APIFetch";
 
 const initialForm = {
   submitable: false,
@@ -80,21 +81,16 @@ export default function AddTweet({ appendNewsCb }) {
       form.append("description", tweetForm.description);
       if (tweetForm.picture) form.append("picture", tweetForm.picture);
 
-      fetch("http://127.0.0.1:8000/news/", {
-        method: "POST",
-        headers: currentUser.header,
-        body: form,
-      })
-        .then((res) => (res.ok ? res.json() : null))
-        .then((res) => {
-          if (res) {
-            appendNewsCb(res);
-            disTweetForm({
-              type: "init",
-            });
-            refTextForm.current.value = "";
-          }
-        });
+      disTweetForm({
+        type: "init",
+      });
+      refTextForm.current.value = "";
+
+      axiosInstance.post("/news/", form).then(({ data }) => {
+        if (data) {
+          appendNewsCb(data);
+        }
+      });
     }
   };
 

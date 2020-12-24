@@ -1,12 +1,10 @@
-import { useContext } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import "./tweet.css";
 import DropMenu from "../../utility/DropMenu";
-import UserContext from "../../context/userContext";
+import axiosInstance from "../../utility/APIFetch";
 
 export default function Tweet({ tweet, editTweetCb, editNewsCb }) {
-  const { header } = useContext(UserContext);
-
   const handleHoverButton = (event) => {
     const hover_class = "news-tools-inactive";
     if (event.type === "mouseover") event.target.classList.remove(hover_class);
@@ -16,49 +14,34 @@ export default function Tweet({ tweet, editTweetCb, editNewsCb }) {
 
   const handleClickLike = (event) => {
     event.target.style["pointer-events"] = "none";
-    fetch(tweet.likes, {
-      method: "PUT",
-      headers: header,
-    })
-      .then((res) => (res.ok ? res.json() : null))
-      .then((res) => {
-        if (res)
-          editTweetCb({
-            ...tweet,
-            is_liked: res.result,
-            like_count: tweet.like_count + (res.result ? 1 : -1),
-          });
-        event.target.style["pointer-events"] = "auto";
-      });
+    axiosInstance.put(tweet.likes).then(({ data }) => {
+      if (data)
+        editTweetCb({
+          ...tweet,
+          is_liked: data.result,
+          like_count: tweet.like_count + (data.result ? 1 : -1),
+        });
+      event.target.style["pointer-events"] = "auto";
+    });
   };
 
   const handleClickRetweet = (event) => {
     event.target.style["pointer-events"] = "none";
-    fetch(tweet.retweets, {
-      method: "PUT",
-      headers: header,
-    })
-      .then((res) => (res.ok ? res.json() : null))
-      .then((res) => {
-        if (res)
-          editTweetCb({
-            ...tweet,
-            is_retweeted: res.result,
-            retweet_count: tweet.retweet_count + (res.result ? 1 : -1),
-          });
-        event.target.style["pointer-events"] = "auto";
-      });
+    axiosInstance.put(tweet.retweets).then(({ data }) => {
+      if (data)
+        editTweetCb({
+          ...tweet,
+          is_retweeted: data.result,
+          retweet_count: tweet.retweet_count + (data.result ? 1 : -1),
+        });
+      event.target.style["pointer-events"] = "auto";
+    });
   };
 
   const handleClickDelete = () => {
-    fetch(`http://127.0.0.1:8000/news/${tweet.id}`, {
-      method: "DELETE",
-      headers: header,
-    })
-      .then((res) => res.ok)
-      .then((res) => {
-        if (res) editNewsCb(tweet.id);
-      });
+    axiosInstance.delete(`/news/${tweet.id}`).then(() => {
+      editNewsCb(tweet.id);
+    });
   };
 
   return (

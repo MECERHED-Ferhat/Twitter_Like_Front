@@ -1,10 +1,11 @@
-import { useContext, useEffect, useReducer, Fragment } from "react";
+import React, { useEffect, useReducer, Fragment } from "react";
 import { NavLink, Switch, Route } from "react-router-dom";
 import "./follow.css";
 import UserInline from "../utility/UserInline";
 import FollowButton from "../utility/FollowButton";
 import { LoadState, useLoadState } from "../../utility/LoadState";
-import UserContext from "../../context/userContext";
+import axiosInstance from "../../utility/APIFetch";
+import axios from "axios";
 
 const initialFollow = {
   followers: null,
@@ -44,7 +45,6 @@ const reducerFollow = (state, action) => {
 };
 
 export default function Follow({ user }) {
-  const { header } = useContext(UserContext);
   const [loadState, disLoadState] = useLoadState();
   const [{ followers, following }, disFollow] = useReducer(
     reducerFollow,
@@ -52,21 +52,28 @@ export default function Follow({ user }) {
   );
 
   useEffect(() => {
-    fetch(user.followers, {
-      headers: header,
-    })
-      .then((res) => (res.ok ? res.json() : null))
-      .then((res) => {
-        disFollow({ type: "setFollowers", items: res ? res.results : null });
-      });
+    var isMounted = true;
+    const followersR = axiosInstance.get(user.followers);
+    const followingR = axiosInstance.get(user.following);
 
-    fetch(user.following, {
-      headers: header,
-    })
-      .then((res) => (res.ok ? res.json() : null))
-      .then((res) => {
-        disFollow({ type: "setFollowing", items: res ? res.results : null });
-      });
+    axios.all([followersR, followingR]).then(
+      axios.spread((followersD, followingD) => {
+        if (isMounted) {
+          disFollow({
+            type: "setFollowers",
+            items: followersD ? followersD.data.results : null,
+          });
+          disFollow({
+            type: "setFollowing",
+            items: followingD ? followingD.data.results : null,
+          });
+        }
+      })
+    );
+
+    return () => {
+      isMounted = false;
+    };
     // eslint-disable-next-line
   }, [user]);
 

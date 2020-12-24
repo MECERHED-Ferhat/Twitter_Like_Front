@@ -1,4 +1,4 @@
-import { useContext, useReducer, Fragment, useEffect } from "react";
+import React, { useReducer, Fragment, useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
 import MainHeader from "../utility/MainHeader";
 import Profile from "./Profile";
@@ -6,7 +6,7 @@ import UserNews from "./UserNews";
 import Follow from "./Follow";
 import { LoadState, useLoadState } from "../../utility/LoadState";
 import { Error404 } from "../../error/Error";
-import UserContext from "../../context/userContext";
+import axiosInstance from "../../utility/APIFetch";
 
 const initialUser = null;
 const reducerUser = (state, action) => {
@@ -27,18 +27,15 @@ const reducerUser = (state, action) => {
 };
 
 export default function User({ match }) {
-  const { header } = useContext(UserContext);
   const [user, disUser] = useReducer(reducerUser, initialUser);
   const [loadState, disLoadState] = useLoadState();
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/user/detail/${match.params.username}`, {
-      headers: header,
-    })
-      .then((res) => (res.ok ? res.json() : null))
-      .then((res) => disUser({ type: "setUser", user: res }));
+    axiosInstance
+      .get(`/user/detail/${match.params.username}`)
+      .then(({ data }) => disUser({ type: "setUser", user: data }));
     // eslint-disable-next-line
-  }, [match.params]);
+  }, [match.params.username]);
 
   useEffect(() => {
     if (user) disLoadState({ type: "render" });

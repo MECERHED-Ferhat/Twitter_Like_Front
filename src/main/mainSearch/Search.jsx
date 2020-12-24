@@ -1,14 +1,13 @@
-import { Fragment, useRef, useState, useEffect, useContext } from "react";
+import React, { Fragment, useRef, useState, useEffect } from "react";
 import "./search.css";
 import MainHeader from "../utility/MainHeader";
 import UserInline from "../utility/UserInline";
-import UserContext from "../../context/userContext";
+import axiosInstance from "../../utility/APIFetch";
 
 const initialSearch = "";
 const initialResults = [];
 
 export default function Search() {
-  const { header } = useContext(UserContext);
   const refSearchForm = useRef(null);
   const [search, setSearch] = useState(initialSearch);
   const [results, setResults] = useState(initialResults);
@@ -18,20 +17,12 @@ export default function Search() {
     var fetchResults;
     if (search) {
       fetchResults = setTimeout(() => {
-        fetch(
-          "http://127.0.0.1:8000/user/search/?" +
-            new URLSearchParams({
-              q: search,
-            }),
-          {
-            headers: header,
-          }
-        )
-          .then((res) => (res.ok ? res.json() : { results: initialResults }))
-          .then((res) => {
-            if (isMounted) setResults(res.results);
+        axiosInstance
+          .get(`/user/search/?${new URLSearchParams({ q: search })}`)
+          .then(({ data }) => {
+            if (isMounted) setResults(data ? data.results : initialResults);
           });
-      }, 1000);
+      }, 700);
     } else {
       setResults(initialResults);
     }

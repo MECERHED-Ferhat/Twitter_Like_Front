@@ -1,28 +1,23 @@
-import { Fragment, useEffect, useContext } from "react";
+import React, { Fragment, useEffect } from "react";
 import Tweet from "../utility/Tweet";
 import Separator from "../utility/Separator";
 import useNews from "../utility/useNews";
 import { LoadState, useLoadState } from "../../utility/LoadState";
-import UserContext from "../../context/userContext";
+import axiosInstance from "../../utility/APIFetch";
 
 export default function UserNews({ user }) {
-  const { header } = useContext(UserContext);
   const [loadState, disLoadState] = useLoadState();
   const [news, disNews] = useNews();
 
   useEffect(() => {
     var isMounted = true;
-    fetch(user.tweet_url, {
-      headers: header,
-    })
-      .then((res) => (res.ok ? res.json() : null))
-      .then((res) => {
-        if (isMounted)
-          disNews({
-            type: "init",
-            news: res ? res.results : null,
-          });
-      });
+    axiosInstance.get(user.tweet_url).then(({ data }) => {
+      if (isMounted)
+        disNews({
+          type: "init",
+          news: data ? data.results : null,
+        });
+    });
     return () => {
       isMounted = false;
     };

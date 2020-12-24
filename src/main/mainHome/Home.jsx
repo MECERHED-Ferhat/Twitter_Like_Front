@@ -1,34 +1,29 @@
-import { useContext, Fragment, useEffect } from "react";
+import React, { Fragment, useEffect } from "react";
 import MainHeader from "../utility/MainHeader";
 import AddTweet from "./AddTweet";
 import Tweet from "../utility/Tweet";
 import Separator from "../utility/Separator";
 import useNews from "../utility/useNews";
 import { LoadState, useLoadState, ERRORS } from "../../utility/LoadState";
-import UserContext from "../../context/userContext";
+import axiosInstance from "../../utility/APIFetch";
 
 export default function Home() {
-  const { header } = useContext(UserContext);
   const [loadState, disLoadState] = useLoadState();
   const [news, disNews] = useNews();
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/news/tweetHistory/", {
-      headers: header,
-    })
-      .then((res) => (res.ok ? res.json() : null))
-      .then((res) => {
-        if (res)
-          disNews({
-            type: "init",
-            news: res.results,
-          });
-        else
-          disLoadState({
-            type: "error",
-            error: ERRORS.DEFAULT,
-          });
-      });
+    axiosInstance.get("/news/tweetHistory/").then(({ data }) => {
+      if (data)
+        disNews({
+          type: "init",
+          news: data.results,
+        });
+      else
+        disLoadState({
+          type: "error",
+          error: ERRORS.DEFAULT,
+        });
+    });
     // eslint-disable-next-line
   }, []);
 

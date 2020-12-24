@@ -1,4 +1,4 @@
-import { useReducer } from "react";
+import React, { useReducer } from "react";
 import { ErrorDefault, Error404 } from "../error/Error";
 
 export const ERRORS = {

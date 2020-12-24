@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 import "./profile.css";
 import FollowButton from "../utility/FollowButton";

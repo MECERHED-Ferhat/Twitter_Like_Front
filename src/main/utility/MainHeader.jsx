@@ -1,3 +1,4 @@
+import React from "react";
 import "./main_header.css";
 
 export default function MainHeader({ children }) {

@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from "react";
+import React, { useEffect, useReducer } from "react";
 import { BrowserRouter as Router, Switch } from "react-router-dom";
 import "./app.css";
 import ProtectedRouter from "./login/ProtectedRouter";
@@ -8,6 +8,7 @@ import Main from "./main/Main";
 import UserContext from "./context/userContext";
 import DisUserContext from "./context/disUserContext";
 import { LoadState, useLoadState, ERRORS } from "./utility/LoadState";
+import axiosInstance, { setHeader } from "./utility/APIFetch";
 
 const initialUser = {
   isLog: false,
@@ -46,29 +47,26 @@ function App() {
   useEffect(() => {
     disCurrentUser({
       type: "setToken",
-      token: "4e56d32d66a927d29a3c0f44924b3c7c7e15c1db",
+      token: "39f07245d43fcfb8ea7cf0b2795497c0934f388b",
     });
   }, []);
 
   useEffect(() => {
     if (currentUser.token) {
-      fetch("http://127.0.0.1:8000/login/", {
-        headers: currentUser.header,
-      })
-        .then((res) => (res.ok ? res.json() : null))
-        .then((res) => {
-          if (res) {
-            disCurrentUser({
-              type: "login",
-              user: res,
-            });
-          } else {
-            disLoadState({
-              type: "error",
-              error: ERRORS.DEFAULT,
-            });
-          }
-        });
+      setHeader(axiosInstance, currentUser.token);
+      axiosInstance.get("/login/").then(({ data }) => {
+        if (data) {
+          disCurrentUser({
+            type: "login",
+            user: data,
+          });
+        } else {
+          disLoadState({
+            type: "error",
+            error: ERRORS.DEFAULT,
+          });
+        }
+      });
     }
     // eslint-disable-next-line
   }, [currentUser.token]);
@@ -81,18 +79,13 @@ function App() {
   const handleSubmitLogin = (e, form) => {
     e.preventDefault();
     const fd = new FormData(form);
-    fetch("http://127.0.0.1:8000/api_auth_token/", {
-      method: "POST",
-      body: fd,
-    })
-      .then((res) => (res.ok ? res.json() : null))
-      .then((res) => {
-        if (res) {
-          disCurrentUser({ type: "setToken", token: res.token });
-        } else {
-          disLoadState({ type: "error", error: ERRORS.E404 });
-        }
-      });
+    axiosInstance.post("/api_auth_token/", fd).then(({ data }) => {
+      if (data) {
+        disCurrentUser({ type: "setToken", token: data.token });
+      } else {
+        disLoadState({ type: "error", error: ERRORS.E404 });
+      }
+    });
   };
 
   return (
